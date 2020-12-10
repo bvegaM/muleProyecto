@@ -18,10 +18,26 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<http:request-config name="HTTP_Request_configuration2" doc:name="HTTP Request configuration" doc:id="ab0714a5-be3f-4268-94c4-2bd80fcac33e" basePath="/fipe/api/v1/carros/marcas/23" >
 		<http:request-connection protocol="HTTPS" host="parallelum.com.br" port="443" />
 	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration3" doc:name="HTTP Request configuration" doc:id="86f01635-287d-4fd7-ba91-6c977cbe94ac" basePath="/proyectoSOA/v1/seguroFactura" >
+		<http:request-connection host="localhost" port="9090" />
+	</http:request-config>
 	<flow name="proyectointercicloFlow" doc:id="a9cba237-ccfc-410c-a8c5-335911690aeb" >
 		<http:listener doc:name="Listener" doc:id="13bc8152-8eb3-43b6-ba32-60f62a299ae3" config-ref="HTTP_Listener_config" path="/carros"/>
 		<http:request method="GET" doc:name="Request" doc:id="2df16618-2759-4233-b11b-4da01164de5e" config-ref="HTTP_Request_configuration2" path="/modelos">
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="d26df57b-c59f-42a2-a432-35e2257c85c4" />
+	</flow>
+	<flow name="proyectointercicloFlow1" doc:id="be6ebfa2-bce2-4032-b353-fbfd3bb7474d" >
+		<http:listener doc:name="Listener" doc:id="ab097d42-60e5-4b39-9e92-22b79632cefc" config-ref="HTTP_Listener_config" path="/renta"/>
+		<set-variable value='#[message.attributes.queryParams.opcion as String default "0"]' doc:name="seguroOpcion" doc:id="2d7eb392-fe88-4c18-ab50-2f5e55860495" variableName="seguroOpcion"/>
+		<choice doc:name="Choice" doc:id="dbee89ac-1619-481c-a8da-e14c324402e6" >
+			<when expression='#[vars.seguroOpcion == "0"]'>
+				<http:request method="POST" doc:name="Request" doc:id="869da003-c158-4dc9-afa2-681c814a914d" config-ref="HTTP_Request_configuration1" path="/crearFactura"/>
+				<logger level="INFO" doc:name="Logger" doc:id="8b618812-50cb-4d0a-8656-2da42e4eda5a" />
+			</when>
+			<otherwise >
+				<http:request method="POST" doc:name="Request" doc:id="25ca3c0d-2143-4fa9-a7d1-8c09a4016916" config-ref="HTTP_Request_configuration3" path="/crear"/>
+			</otherwise>
+		</choice>
 	</flow>
 </mule>
