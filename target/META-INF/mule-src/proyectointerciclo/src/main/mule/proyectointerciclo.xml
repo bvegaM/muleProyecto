@@ -15,12 +15,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="b8583c96-5087-42ea-991b-c3f4bb4ecd1f" basePath="/serviceFacturacion/v1/factura" >
 		<http:request-connection host="localhost" port="8080" />
 	</http:request-config>
-	<http:request-config name="HTTP_Request_configuration2" doc:name="HTTP Request configuration" doc:id="ab0714a5-be3f-4268-94c4-2bd80fcac33e" basePath="/fipe/api/v1/carros/marcas/3" >
+	<http:request-config name="HTTP_Request_configuration2" doc:name="HTTP Request configuration" doc:id="ab0714a5-be3f-4268-94c4-2bd80fcac33e" basePath="/fipe/api/v1/carros/marcas/23" >
 		<http:request-connection protocol="HTTPS" host="parallelum.com.br" port="443" />
 	</http:request-config>
 	<flow name="proyectointercicloFlow" doc:id="a9cba237-ccfc-410c-a8c5-335911690aeb" >
 		<http:listener doc:name="Listener" doc:id="13bc8152-8eb3-43b6-ba32-60f62a299ae3" config-ref="HTTP_Listener_config" path="/carros"/>
-		<http:request method="GET" doc:name="Request" doc:id="2df16618-2759-4233-b11b-4da01164de5e" config-ref="HTTP_Request_configuration2" path="/modelos"/>
+		<http:request method="GET" doc:name="Request" doc:id="2df16618-2759-4233-b11b-4da01164de5e" config-ref="HTTP_Request_configuration2" path="/modelos">
+		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="d26df57b-c59f-42a2-a432-35e2257c85c4" />
 	</flow>
 </mule>
